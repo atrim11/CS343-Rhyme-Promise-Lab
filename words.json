@@ -1,0 +1,23 @@
+[
+    {
+        "word": "no",
+        "frequency": 28,
+        "score": "300",
+        "flags": "bc",
+        "syllables": "1"
+    },
+    {
+        "word": "so",
+        "frequency": 28,
+        "score": "300",
+        "flags": "bc",
+        "syllables": "1"
+    },
+    {
+        "word": "know",
+        "frequency": 27,
+        "score": "300",
+        "flags": "bc",
+        "syllables": "1"
+    }
+]
