@@ -9,25 +9,41 @@ searchBoxElem.addEventListener("keydown", whenSomeKeyPressed);
 async function whenSomeKeyPressed(event) {
   if (event.key === "Enter") {
     event.preventDefault();
-
     const rhymes = await searchForRhymes(searchBoxElem.value);
-    const rhymeElements = await createRhymeElements(rhymes);
-    clearResultsElem();
-    populateResultsElem(rhymeElements);
+    const rhymeResultsElems = -1; // await createRhymeElements(rhymes);
+    if (rhymes.length > 0) {
+      clearResultsElem();
+      rhymeResultsElems = await createRhymeElements(rhymes);
+      if (rhymeResultsElems.length > 0) {
+        populateResultsElem(rhymeResultsElems);
+      }
+    }
+    // const rhymeElements = await createRhymeElements(rhymes);
+    // console.log(rhymeElements !== undefined);
+
+    // if (rhymeElements == undefined) {
+    //   console.log("in if");
+    //   clearResultsElem();
+    //   populateResultsElem(rhymeElements);
+    // }
+    // clearResultsElem();
+    // populateResultsElem(rhymeElements);
   }
 }
 
 function searchForRhymes(query) {
   const rhymeResults = fetch(
     `https://rhymebrain.com/talk?function=getRhymes&word=${query}`
-    // "example-rhyme-results.json"
   )
     .then(function (responseFromEndpoint) {
+      console.log(responseFromEndpoint);
       return responseFromEndpoint.json();
     })
     .then(function (rhymeResultsJson) {
       const truncatedTo10 = rhymeResultsJson.slice(0, 10);
       console.log(truncatedTo10);
+      return truncatedTo10;
+    }).then(function (truncatedTo10) {
       return truncatedTo10;
     });
   return rhymeResults;
@@ -43,8 +59,9 @@ function createRhymeElements(rhymeResultsJson) {
         resultElem.append(rhymeWord.word);
         resultElem.append(createWordInfoElements(wordInfos[i]));
         resultElem = styleRhymeResult(resultElem);
-        return resultElem;
+        return rhymeResultsElems;
       });
+      return rhymeResultsElems;
     })
     .then(function (rhymeResultsElems) {
       return rhymeResultsElems;
@@ -109,5 +126,5 @@ function clearResultsElem() {
 }
 
 function populateResultsElem(rhymeResultsElems) {
-  resultsContainerElem.append(...rhymeResultsElems);
+  resultsContainerElem.append(rhymeResultsElems);
 }
